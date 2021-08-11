@@ -1,9 +1,8 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="app">
+    <h2>{{ $store.state.name }}</h2>
+    <el-button>12312</el-button>
   </div>
-  <router-view />
 </template>
 
 <style lang="less">
