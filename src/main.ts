@@ -3,7 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { globalRegister } from './global/index'
-// import './service/axios_demo'
+import 'normalize.css'
+import './assets/css/index.less'
 import dkRequest from './service'
 const app = createApp(App)
 
