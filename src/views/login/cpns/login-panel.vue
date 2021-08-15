@@ -9,11 +9,7 @@
             <el-input v-model="account.username"></el-input>
           </el-form-item>
           <el-form-item label="密码：" prop="password">
-            <el-input
-              v-model="account.password"
-              type="password"
-              show-password
-            ></el-input>
+            <el-input v-model="account.password" show-password></el-input>
           </el-form-item>
         </el-form>
         <div class="account-control">
@@ -37,20 +33,22 @@ import { useStore } from 'vuex'
 export default defineComponent({
   setup() {
     const store = useStore()
-    const account = reactive({
-      username: '',
-      password: ''
-    })
     const isKeepPassword = ref(true)
+    const account = reactive({
+      username: localCache.getCache('username') ?? '',
+      password: localCache.getCache('password') ?? ''
+    })
     const formRef = ref<InstanceType<typeof ElForm>>()
-    const loginAction = (isKeepPassword: boolean) => {
+
+    const loginAction = () => {
       formRef.value?.validate((valid) => {
         if (valid) {
-          if (isKeepPassword) {
+          if (isKeepPassword.value) {
             // 本地缓存
             localCache.setCache('username', account.username)
             localCache.setCache('password', account.password)
           } else {
+            // 删除本地缓存
             localCache.deleteCache('username')
             localCache.deleteCache('password')
           }
@@ -59,7 +57,7 @@ export default defineComponent({
         }
       })
     }
-    return { account, rules, isKeepPassword, formRef, loginAction }
+    return { isKeepPassword, account, rules, formRef, loginAction }
   }
 })
 </script>
