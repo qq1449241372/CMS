@@ -1,8 +1,9 @@
 import { App } from 'vue'
 import 'element-plus/lib/theme-chalk/base.css'
+
 import lang from 'element-plus/lib/locale/lang/zh-cn'
 import 'dayjs/locale/zh-cn'
-import { locale } from 'element-plus'
+import { ElBreadcrumb, ElBreadcrumbItem, locale } from 'element-plus'
 import {
   ElAside,
   ElAvatar,
@@ -53,12 +54,14 @@ const components = [
   ElRow,
   ElSelect,
   ElOption,
-  ElDatePicker
+  ElDatePicker,
+  ElBreadcrumb,
+  ElBreadcrumbItem
 ]
 
 export default function (app: App): void {
+  // locale(lang)
   for (const component of components) {
     app.component(component.name, component)
   }
-  locale(lang)
 }

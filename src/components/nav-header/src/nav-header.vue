@@ -6,17 +6,29 @@
       @click="handleFoldClick"
     ></i>
     <div class="content">
-      <div>breadcrumb</div>
+      <dk-breadcrumb
+        :breadCrumbs="breadCrumbs"
+        class="breadcrumb"
+      ></dk-breadcrumb>
+
       <user-info></user-info>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+// vue api
+import { defineComponent, ref, computed } from 'vue'
+import { useStore } from '@/store'
+import { useRoute } from 'vue-router'
+// components
 import UserInfo from './user-info.vue'
+import DkBreadcrumb from '@/base-ui/breadcrumb'
+// utils
+import { pathMapBreadCrumb } from '@/utils/map-menus'
+
 export default defineComponent({
-  components: { UserInfo },
+  components: { UserInfo, DkBreadcrumb },
   emits: ['foldChange'],
   setup(props, { emit }) {
     const isFold = ref(false)
@@ -24,7 +36,16 @@ export default defineComponent({
       isFold.value = !isFold.value
       emit('foldChange', isFold.value)
     }
-    return { isFold, handleFoldClick }
+    // instantiation vue api
+    const store = useStore()
+    const route = useRoute()
+    // breadcrumb data
+    const breadCrumbs = computed(() => {
+      const userMenus = store.state.login.userMenus
+      const currentPath = route.path
+      return pathMapBreadCrumb(userMenus, currentPath)
+    })
+    return { isFold, breadCrumbs, handleFoldClick }
   }
 })
 </script>
@@ -43,6 +64,9 @@ export default defineComponent({
     align-items: center;
     flex: 1;
     padding: 0 20px;
+  }
+  .breadcrumb {
+    cursor: not-allowed;
   }
 }
 </style>

@@ -3,6 +3,7 @@ import localStorage from '@/utils/cache'
 import type { RouteRecordRaw } from 'vue-router'
 import { mapMenusToRoutes } from '@/utils/map-menus'
 import store from '@/store'
+import { firstMenu } from '@/utils/map-menus'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -37,14 +38,9 @@ router.beforeEach((to) => {
       return '/login'
     }
   }
-  // userMenus => routes
-  const userMenus = (store.state as any).login.userMenus
-  const routes = mapMenusToRoutes(userMenus)
-
-  // 将routes => router.main.children
-  routes.forEach((route) => {
-    router.addRoute('main', route)
-  })
+  if (to.path === '/main') {
+    return firstMenu.url
+  }
 })
 
 export default router

@@ -6,7 +6,7 @@
       <span class="title" v-if="!collapse">资产公司CMS</span>
     </div>
     <el-menu
-      default-active="2"
+      :default-active="defaultValue"
       class="el-menu-vertical"
       :collapse="collapse"
       background-color="#0c2135"
@@ -47,9 +47,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref, ComputedRef } from 'vue'
 import { useStore } from '@/store'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { pathMapToMenu } from '@/utils/map-menus'
 export default defineComponent({
   props: {
     collapse: {
@@ -58,15 +59,25 @@ export default defineComponent({
     }
   },
   setup() {
+    // store
     const store = useStore()
+    const userMenus: ComputedRef = computed(() => store.state.login.userMenus)
+
+    // router
     const router = useRouter()
-    const userMenus: any = computed(() => store.state.login.userMenus)
+    const route = useRoute()
+    const currentPath = route.path
+
+    // data
+    const menu = pathMapToMenu(userMenus.value, currentPath)
+    const defaultValue = ref(menu.id + '')
+    // handle event
     const handleMenuItemClick = (item: any) => {
       router.push({
         path: item.url ?? '/not-found'
       })
     }
-    return { userMenus, handleMenuItemClick }
+    return { userMenus, defaultValue, handleMenuItemClick }
   }
 })
 </script>
@@ -83,12 +94,10 @@ export default defineComponent({
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    cursor: default;
 
     .img {
       height: 100%;
-
-      // height: 60px;
-      // width: 60px;
     }
 
     .title {

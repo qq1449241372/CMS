@@ -1,43 +1,47 @@
 <template>
   <div class="user">
     <div class="search">
-      <dk-form :formItems="formItems"></dk-form>
+      <dk-form v-bind="formConfig" v-model="formData">
+        <template #header>
+          <h1 class="header">高级检索</h1>
+        </template>
+        <template #footer>
+          <h1 class="footer">
+            <div class="handle-btn-groups">
+              <el-button type="" icon="el-icon-refresh">重置</el-button>
+              <el-button type="primary" icon="el-icon-search">搜索</el-button>
+            </div>
+          </h1>
+        </template>
+      </dk-form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import DkForm, { IFormItem } from '@/base-ui/form'
+import { defineComponent, reactive } from 'vue'
+import DkForm from '@/base-ui/form'
+import { formConfig } from './config/search.config'
 export default defineComponent({
   name: 'user',
   components: { DkForm },
   setup() {
-    const formItems: IFormItem[] = [
-      { type: 'input', label: '用户名', rules: [], placeholder: '用户名' },
-      { type: 'input', label: '密码', rules: [], placeholder: '密码' },
-      { type: 'input', label: '姓名', rules: [], placeholder: '姓名' },
-      { type: 'input', label: '手机号', rules: [], placeholder: '手机号' },
-      {
-        type: 'select',
-        label: '角色',
-        rules: [],
-        placeholder: '角色',
-        options: [{ label: '超级管理员' }, { label: '超级管理员' }]
-      },
-      {
-        type: 'datepicker',
-        label: '创建时间',
-        otherOptions: {
-          startPlaceholder: '开始时间',
-          endPlaceholder: '结束时间',
-          type: 'daterange'
-        }
-      }
-    ]
-    return { formItems }
+    const formData = reactive({
+      // id: '',
+      username: '',
+      password: '',
+      realName: '',
+      role: '',
+      phone: '',
+      createdTime: ''
+    })
+    return { formConfig, formData }
   }
 })
 </script>
 
-<style scoped></style>
+<style scoped lang='less'>
+.handle-btn-groups {
+  text-align: right;
+}
+</style>

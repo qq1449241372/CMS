@@ -3,6 +3,7 @@ import { IRootState } from '../types'
 import { ILoginState } from './types'
 import { loginRequest } from '@/service/login/login'
 import type { IAccount } from '@/service/login/types'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 import localStorage from '@/utils/cache'
 import router from '@/router'
 const loginModule: Module<ILoginState, IRootState> = {
@@ -24,9 +25,16 @@ const loginModule: Module<ILoginState, IRootState> = {
       // console.log('commit', userInfo)
       state.userInfo = userInfo
     },
-    changeUserMenus(state, userMeuns: any) {
+    changeUserMenus(state, userMenus: any) {
       // console.log('commit', userMeuns)
-      state.userMenus = userMeuns
+      state.userMenus = userMenus
+      // userMenus => routes
+      const routes = mapMenusToRoutes(userMenus)
+
+      // 将routes => router.main.children
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {
