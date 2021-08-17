@@ -6,6 +6,7 @@ const dkRequest = new DKRequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
   showLoading: true,
+
   interceptors: {
     requestInterceptor: (config) => {
       // console.log('请求成功的拦截')

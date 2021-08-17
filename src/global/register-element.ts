@@ -1,11 +1,18 @@
 import { App } from 'vue'
 import 'element-plus/lib/theme-chalk/base.css'
+import lang from 'element-plus/lib/locale/lang/zh-cn'
+import 'dayjs/locale/zh-cn'
+import { locale } from 'element-plus'
 import {
   ElAside,
+  ElAvatar,
   ElButton,
   ElCard,
   ElCheckbox,
   ElContainer,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
   ElForm,
   ElFormItem,
   ElHeader,
@@ -15,7 +22,12 @@ import {
   ElMenu,
   ElMenuItem,
   ElRadio,
-  ElSubmenu
+  ElCol,
+  ElRow,
+  ElSubmenu,
+  ElSelect,
+  ElOption,
+  ElDatePicker
 } from 'element-plus'
 const components = [
   ElButton,
@@ -32,11 +44,21 @@ const components = [
   ElHeader,
   ElMenu,
   ElMenuItem,
-  ElSubmenu
+  ElSubmenu,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElAvatar,
+  ElCol,
+  ElRow,
+  ElSelect,
+  ElOption,
+  ElDatePicker
 ]
 
 export default function (app: App): void {
   for (const component of components) {
     app.component(component.name, component)
   }
+  locale(lang)
 }

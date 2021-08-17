@@ -6,6 +6,7 @@ import { globalRegister } from './global/index'
 import 'normalize.css'
 import './assets/css/index.less'
 import { setupStore } from './store'
+import locale from 'element-plus/lib/locale/lang/zh-cn'
 const app = createApp(App)
 
 app.use(globalRegister)
